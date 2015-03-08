@@ -13,7 +13,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name="juju_deployerizer",
+    name="juju-deployerizer",
     version="0.0.1",
     author="Jorge Niedbalski R.",
     include_package_data=True,

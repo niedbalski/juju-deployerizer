@@ -211,5 +211,3 @@ so you can notice this charms with the prefix local:series/charm.
 
 Probably in the near future, we will add an option
 for doing a local branch to a directory.
-
-# Example
