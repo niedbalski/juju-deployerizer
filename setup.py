@@ -8,13 +8,9 @@ from setuptools import setup, find_packages
 
 dependencies = ["PyYaml"]
 
-
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
-
 setup(
     name="juju-deployerizer",
-    version="0.0.1",
+    version="0.0.2",
     author="Jorge Niedbalski R.",
     include_package_data=True,
     author_email="jnr@metaklass.org",
@@ -22,7 +18,6 @@ setup(
     install_requires=dependencies,
     packages=find_packages(),
     test_suite='nose.collector',
-    long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
     ],
