@@ -145,68 +145,22 @@ local:
       charm: local:trusty/mysql
       num_units: 1
       options:
-        backup_dir: /var/lib/mysql/backups
-        backup_retention_count: 7
-        backup_schedule: ''
-        bind-address: 0.0.0.0
-        binlog-format: MIXED
-        block-size: 5
-        ceph-osd-replication-count: 3
-        dataset-size: 80%
-        flavor: distro
-        ha-bindiface: eth0
-        ha-mcastport: 5411
-        max-connections: -1
-        nagios_context: juju
-        prefer-ipv6: false
-        preferred-storage-engine: InnoDB
-        query-cache-size: 0
-        query-cache-type: 'OFF'
-        rbd-name: mysql1
-        tuning-level: safest
-        vip: ''
-        vip_cidr: 24
-        vip_iface: eth0
         wait-timeout: -1
     percona-cluster:
       charm: local:trusty/percona-cluster
       constraints: cpu-cores=9 mem=8192M
       num_units: 1
-      options:
-        dataset-size: 80%
-        ha-bindiface: eth0
-        ha-mcastport: 5490
-        innodb-file-per-table: true
-        lp1366997-workaround: false
-        max-connections: -1
-        prefer-ipv6: false
-        table-open-cache: 2048
-        vip_cidr: 24
-        vip_iface: eth0
-        wait-timeout: -1
     rsyslog:
       charm: cs:trusty/rsyslog
       num_units: 1
-      options:
-        messages_rotate: 4
-        nova_logs: false
-        protocol: udp
-        syslog_rotate: 7
     rsyslog-forwarder-ha:
       charm: cs:trusty/rsyslog-forwarder-ha
       num_units: 1
-      options:
-        log-locally: false
-        protocol: udp
-        replication-mode: fanout
 ```
-
-
-
 
 # Notes
 
-By default juju-deployer branches and uses the charms locally,
+By default juju-deployer makes a local bzr branch and uses the charms locally,
 so you can notice this charms with the prefix local:series/charm.
 
 Probably in the near future, we will add an option
