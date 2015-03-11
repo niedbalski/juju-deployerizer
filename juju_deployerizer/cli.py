@@ -3,6 +3,7 @@
 from __future__ import print_function
 
 import yaml
+import shlex
 import subprocess
 import argparse
 import re
@@ -11,7 +12,7 @@ __author__ = "Jorge Niedbalski <jorge.niedbalski@canonical.com>"
 
 
 def run(cmd):
-    return subprocess.check_output(cmd.split(" "), stderr=subprocess.PIPE)
+    return subprocess.check_output(shlex.split(cmd), stderr=subprocess.PIPE)
 
 
 def load_yaml(cmd):
