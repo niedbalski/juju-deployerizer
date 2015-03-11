@@ -56,7 +56,7 @@ class Service:
         config = load_yaml("juju get %s" % self.name)
         options = {}
         for k, v in config.get('settings').items():
-            if 'value' in v:
+            if 'value' in v and not v.get('default', False):
                 options[k] = v['value']
         return options
 
