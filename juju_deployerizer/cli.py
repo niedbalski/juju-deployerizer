@@ -25,7 +25,8 @@ class Service:
                  skip_relations=["cluster", ]):
         self.name = name
         self.skip_relations = skip_relations
-        self.status = environment.get("services")[self.name]
+        self.status = environment.environment.get("services")[self.name]
+        self.environment = environment
 
     def to_dict(self):
         r = {
@@ -56,8 +57,9 @@ class Service:
     def options(self):
         config = load_yaml("juju get %s" % self.name)
         options = {}
+        inc_defaults = self.environment.options.include_defaults
         for k, v in config.get('settings').items():
-            if 'value' in v and not v.get('default', False):
+            if 'value' in v and (not v.get('default', False) or inc_defaults):
                 options[k] = v['value']
         return options
 
@@ -100,7 +102,7 @@ class Environment:
     def services(self):
         services = []
         for service in self.environment.get('services').keys():
-            services.append(Service(service, self.environment))
+            services.append(Service(service, self))
         return services
 
     def deployerize(self):
@@ -143,6 +145,12 @@ def parse_options():
                         help='File to store the deployer yaml',
                         type=str,
                         metavar='output')
+
+    parser.add_argument('--include-defaults',
+                        action='store_true',
+                        dest='include_defaults',
+                        help=('Include configuration values even if they are'
+                              ' the default ones'))
 
     args = parser.parse_args()
     return args
