@@ -131,13 +131,13 @@ def parse_options():
         description='Convert your current juju environment status\
             into a YAML suitable for being used on juju-deployer')
 
-    parser.add_argument("--environment",
+    parser.add_argument("-e", "--environment",
                         required=True,
                         help='Juju environment to convert',
                         type=str,
                         metavar='environment')
 
-    parser.add_argument("--output",
+    parser.add_argument("-o", "--output",
                         default="deployer.yaml",
                         help='File to store the deployer yaml',
                         type=str,
