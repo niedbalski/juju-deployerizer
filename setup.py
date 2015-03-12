@@ -10,7 +10,7 @@ dependencies = ["PyYaml"]
 
 setup(
     name="juju-deployerizer",
-    version="0.0.3",
+    version="0.1.0",
     author="Jorge Niedbalski R.",
     include_package_data=True,
     author_email="jnr@metaklass.org",
