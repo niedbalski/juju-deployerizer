@@ -44,6 +44,11 @@ class Service:
                 'options': self.options,
             })
 
+        if self.environment.options.include_placement and self.placement:
+            r.update({
+                'to': self.placement,
+            })
+
         return r
 
     @property
@@ -83,12 +88,26 @@ class Service:
         def r(m):
             return m.groups()[0]
 
-        return re.sub("(.*)(\-[0-9]+)", r,
-                      self.status.get('charm'))
+        format = self.environment.options.location_format
+        charm = re.sub("(.*)(\-[0-9]+)", r,
+                       self.status.get('charm'))
+
+        if format == "cs" and charm.startswith("local"):
+            return charm.replace("local", "cs")
+        elif format == "local" and charm.startswith("cs"):
+            return charm.replace("cs", "local")
+        else:
+            return charm
 
     @property
     def placement(self):
-        pass
+        units = self.status.get('units', None)
+        if units:
+            if len(units) > 1:
+                return map(lambda x: x.get('machine'), units.values())
+            else:
+                return units[units.keys()[0]].get('machine')
+        return None
 
 
 class Environment:
@@ -151,6 +170,19 @@ def parse_options():
                         dest='include_defaults',
                         help=('Include configuration values even if they are'
                               ' the default ones'))
+
+    parser.add_argument('--include-placement',
+                        action='store_true',
+                        dest='include_placement',
+                        help=('Include service machine/container placement'))
+
+    parser.add_argument('--charm-location-format',
+                        metavar='format',
+                        default="cs",
+                        type=str,
+                        dest='location_format',
+                        help=('Replace charm location to format \
+                        (options: local,cs)'))
 
     args = parser.parse_args()
     return args
