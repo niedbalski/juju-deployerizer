@@ -89,8 +89,12 @@ class Service:
             return m.groups()[0]
 
         format = self.environment.options.location_format
-        charm = re.sub("(.*)(\-[0-9]+)", r,
-                       self.status.get('charm'))
+
+        if self.environment.options.include_charm_versions:
+            charm = self.status.get('charm')
+        else:
+            charm = re.sub("(.*)(\-[0-9]+)", r,
+                           self.status.get('charm'))
 
         if format == "cs" and charm.startswith("local"):
             return charm.replace("local", "cs")
@@ -170,6 +174,12 @@ def parse_options():
                         dest='include_defaults',
                         help=('Include configuration values even if they are'
                               ' the default ones'))
+
+    parser.add_argument('--include-charm-versions',
+                        action='store_true',
+                        default=False,
+                        dest='include_charm_versions',
+                        help=('Include the exact deployed charm version'))
 
     parser.add_argument('--include-placement',
                         action='store_true',
