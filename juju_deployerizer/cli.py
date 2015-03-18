@@ -7,6 +7,7 @@ import shlex
 import subprocess
 import argparse
 import re
+import sys
 
 __author__ = "Jorge Niedbalski <jorge.niedbalski@canonical.com>"
 
@@ -148,8 +149,12 @@ class Environment:
 
         output[self.options.environment]['relations'] = relations
 
-        with open(self.options.output, 'w+') as f:
-            yaml.dump(output, f, default_flow_style=False)
+        dump = yaml.dump(output, default_flow_style=False)
+        if self.options.output:
+            with open(self.options.output, 'w+') as f:
+                f.write(dump)
+        else:
+            sys.stdout.write(dump)
 
 
 def parse_options():
@@ -164,9 +169,9 @@ def parse_options():
                         metavar='environment')
 
     parser.add_argument("-o", "--output",
-                        default="deployer.yaml",
-                        help='File to store the deployer yaml',
+                        help='File to save the yaml bundle (default: stdout)',
                         type=str,
+                        default="",
                         metavar='output')
 
     parser.add_argument('--include-defaults',
