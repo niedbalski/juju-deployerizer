@@ -15,6 +15,7 @@ $ sudo pip install juju-deployerizer
 Available options
 
 ```bash
+
 Convert your current juju environment status into a YAML suitable for being
 used on juju-deployer
 
@@ -26,9 +27,12 @@ optional arguments:
                         File to store the deployer yaml
   --include-defaults    Include configuration values even if they are the
                         default ones
+  --include-charm-versions
+                        Include the exact deployed charm version
   --include-placement   Include service machine/container placement
   --charm-location-format format
                         Replace charm location to format (options: local,cs)
+
 ```
 
 Then, execute the plugin , by running
