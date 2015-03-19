@@ -8,6 +8,7 @@ import subprocess
 import argparse
 import re
 import sys
+import os
 
 __author__ = "Jorge Niedbalski <jorge.niedbalski@canonical.com>"
 
@@ -18,6 +19,16 @@ def run(cmd):
 
 def load_yaml(cmd):
     return yaml.load(run(cmd))
+
+
+def get_environment():
+    environment = os.environ.get("JUJU_ENV", None)
+    if not environment:
+        try:
+            environment = run("juju env").strip()
+        except:
+            environment = None
+    return environment
 
 
 class Service:
@@ -163,9 +174,9 @@ def parse_options():
             into a YAML suitable for being used on juju-deployer')
 
     parser.add_argument("-e", "--environment",
-                        required=True,
                         help='Juju environment to convert',
                         type=str,
+                        default="",
                         metavar='environment')
 
     parser.add_argument("-o", "--output",
@@ -200,6 +211,14 @@ def parse_options():
                         (options: local,cs)'))
 
     args = parser.parse_args()
+
+    if args.environment == "":
+        environment = get_environment()
+        if not environment:
+            parser.error("Not found juju env, please lease use --environment")
+        else:
+            args.environment = environment
+
     return args
 
 
