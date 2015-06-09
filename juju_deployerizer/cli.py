@@ -204,7 +204,7 @@ def parse_options():
 
     parser.add_argument('--charm-location-format',
                         metavar='format',
-                        default="cs",
+                        default="",
                         type=str,
                         dest='location_format',
                         help=('Replace charm location to format \
